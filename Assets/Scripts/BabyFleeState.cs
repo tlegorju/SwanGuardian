@@ -12,6 +12,7 @@ public class BabyFleeState : IState
     private SteeringBehavior steeringBehavior;
 
     public float fleeDistance = 5;
+    public LayerMask OBSTACLES_MASK;
 
     public const float STATE_SPEED = 11;
     public Color STATE_COLOR = Color.red;
@@ -24,7 +25,8 @@ public class BabyFleeState : IState
 
     public void Enter()
     {
-        owner.GetComponent<BabySwanController>().UpdateBabyMaterial(this.GetType()) ;
+        owner.GetComponent<BabySwanController>().UpdateBabyMaterial(this.GetType());
+        OBSTACLES_MASK = owner.GetComponent<BabySwanController>().ObstaclesMask;
         owner.GetComponent<BabySwanController>().MAX_VELOCITY = STATE_SPEED;
 
     }
@@ -37,6 +39,7 @@ public class BabyFleeState : IState
             if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
             {
                 steeringBehavior.AvoidAllAgent(fleeDistance);
+                steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
                 return this.GetType();
             }
         }
