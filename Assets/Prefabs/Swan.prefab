@@ -9,9 +9,11 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1869083003889440494}
+  - component: {fileID: 5915958535785943311}
   - component: {fileID: 1869083003889440495}
   - component: {fileID: 1610912752}
   - component: {fileID: 1610912754}
+  - component: {fileID: 1298715176}
   m_Layer: 0
   m_Name: Swan
   m_TagString: Untagged
@@ -34,6 +36,18 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &5915958535785943311
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869083003889440492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8cd2ad45c7fb4a44822fd8125a7071a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1869083003889440495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -48,9 +62,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   speed: 7
   rotationSpeed: 180
-  screamRange: 7
+  screamRange: 10
   screamOrigin: {fileID: 2270359459613669754}
   screamWave: {fileID: 0}
+  screamMaxSize: 4
 --- !u!114 &1610912752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -86,6 +101,20 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 4294967295
   m_ObstacleAvoidanceType: 4
+--- !u!136 &1298715176
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869083003889440492}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 1
+  m_Enabled: 1
+  m_Radius: 0.5
+  m_Height: 5.3300867
+  m_Direction: 2
+  m_Center: {x: 0, y: 0, z: -0.60065365}
 --- !u!1001 &8489236165412443296
 PrefabInstance:
   m_ObjectHideFlags: 0

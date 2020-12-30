@@ -1,10 +1,12 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class EnnemyController : MonoBehaviour, IBoid
 {
-    [SerializeField] float MAX_VELOCITY = 5;
+    [SerializeField] public float MAX_VELOCITY = 5;
     private Vector3 velocity=new Vector3(0,0,1);
     private float mass = 10;
 
@@ -16,6 +18,21 @@ public class EnnemyController : MonoBehaviour, IBoid
     private Vector3 wanderForce = Vector3.zero;
 
     bool eating=false;
+
+
+    [SerializeField] SteeringBehavior steeringBehavior;
+    [SerializeField] EnnemyStateMachine stateMachine;
+    [SerializeField] FieldOfView Fov;
+
+    public int ObstaclesMask { get; private set; }
+
+    [SerializeField] private Material ennemyMaterial;
+    public Material EnnemyMaterial { get { return ennemyMaterial; } set { ennemyMaterial = value; } }
+    public Material[] StateMaterials;
+    private SkinnedMeshRenderer renderer;
+    private Material[] materials;
+
+    public Transform target { get; private set; }
 
     public enum EnnemyState
     {
@@ -30,138 +47,137 @@ public class EnnemyController : MonoBehaviour, IBoid
     public Transform[] targets;
     private Transform currentTarget;
 
-    //Temp
-    public Material ennemyMaterial;
+
+
+    void Awake()
+    {
+        ObstaclesMask = LayerMask.GetMask("Obstacle");
+
+        if (stateMachine == null)
+            stateMachine = GetComponent<EnnemyStateMachine>();
+        if (steeringBehavior == null)
+            steeringBehavior = GetComponent<SteeringBehavior>();
+        if (Fov == null)
+            Fov = GetComponent<FieldOfView>();
+
+        renderer = GetComponentInChildren<SkinnedMeshRenderer>();
+        materials = renderer?.materials;
+
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        stateMachine.Initialize(typeof(EnnemyWanderState), steeringBehavior);
+
+        Fov.OnEnterFOV += OnSeenSmth;
+        Fov.OnExitFOV += OnLostSightOfSmth;
     }
 
     // Update is called once per frame
     void Update()
     {
-        ennemyState = UpdateState();
+        stateMachine.UpdateStateMachine();
 
-        switch(ennemyState)
-        {
-            case EnnemyState.Chasing:
-                ennemyMaterial.color = Color.red;
-                steeringForce = Chase();
-                break;
-            case EnnemyState.Fleeing:
-                ennemyMaterial.color = Color.white;
-                steeringForce = Flee();
-                break;
-            case EnnemyState.Wandering:
-                ennemyMaterial.color = Color.yellow;
-                steeringForce = Wander();
-                break;
-        }
+        Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();
 
-        if(steeringForce!=Vector3.zero)
-            steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce) / mass;
-        velocity = Vector3.ClampMagnitude(velocity + steeringForce, MAX_VELOCITY);
+        velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
 
-        Translate(velocity * Time.deltaTime);
-        transform.forward = velocity.normalized;
+        GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);
+
+        //Translate(velocity * Time.deltaTime);
+        if (velocity.normalized != Vector3.zero)
+            transform.forward = velocity.normalized;
     }
 
-    private EnnemyState UpdateState()
-    {
-        if (ennemyState == EnnemyState.Fleeing)
-            return EnnemyState.Fleeing;
 
-        for (int i=0;i<targets.Length; i++)
+    private void OnSeenSmth(Transform obj)
+    {
+        if (!target && obj.GetComponent<BabySwanController>())
         {
-            if (targets[i] == null)
-                continue;
-            if (Vector3.Distance(transform.position, targets[i].position) < fleeDistance)
+            target = obj;
+            Debug.Log("target : " + target.gameObject.name);
+        }
+    }
+
+    private void OnLostSightOfSmth(Transform obj)
+    {
+        //if (target == null)
+        //    return;
+        //if (obj.Equals(target))
+        //{
+        //    Debug.Log("LOST TARGET");
+        //    target = FindClosestTarget();
+        //    Debug.Log("NEW TARGET : " + target.gameObject.name);
+        //}
+    }
+
+    private Transform FindClosestTarget()
+    {
+        float sqrDistanceToTarget = -1;
+        Transform currentTarget = null;
+
+        for(int i=0; i<Fov.transformInSight.Count; i++)
+        {
+            if(Fov.transformInSight[i].GetComponent<BabySwanController>())
             {
-                currentTarget = targets[i];
-                return EnnemyState.Chasing;
+                if(sqrDistanceToTarget==-1)
+                {
+                    currentTarget = Fov.transformInSight[i];
+                    sqrDistanceToTarget = Vector3.SqrMagnitude(currentTarget.position - transform.position);
+                }
+                else if(Vector3.SqrMagnitude(Fov.transformInSight[i].position - transform.position)<sqrDistanceToTarget)
+                {
+                    sqrDistanceToTarget = Vector3.SqrMagnitude(Fov.transformInSight[i].position - transform.position);
+                    currentTarget = Fov.transformInSight[i];
+                }
             }
         }
 
-        return EnnemyState.Wandering;
+        return currentTarget;
     }
 
-    private Vector3 Chase()
+
+    public void Dies()
     {
-        return (currentTarget.position - GetPosition()).normalized * MAX_VELOCITY;
+        //BabySwanManager.Instance.OnBabyDies(this);
+        Destroy(gameObject);
     }
 
-    private Vector3 Flee()
+    public void UpdateEnnemyMaterial(Color newColor)
     {
-        return (GetPosition() - Swan.position).normalized * MAX_VELOCITY;
+        ennemyMaterial.color = newColor;
+        Debug.Log("Color : " + ennemyMaterial.color);
+        materials[0] = ennemyMaterial;
+        renderer.materials = materials;
     }
 
-    private Vector3 Wander()
+    public void UpdateEnnemyMaterial(Type state)
     {
-        float turnChance = 0.05f;
-        float circleRadius = 1;
-        float circleDistance = 1;
-        if (Random.value < turnChance)
-        {
-            Vector3 circleCenter = velocity.normalized * circleDistance;
+        if (StateMaterials.Length == 0)
+            return;
 
-            Vector3 randomPoint = Random.insideUnitCircle;//was UnitCircle
-            randomPoint = new Vector3(randomPoint.x, 0, randomPoint.y);
-            Vector3 displacement = randomPoint * circleRadius;
-            displacement = Quaternion.LookRotation(velocity) * displacement;
+        if (state == typeof(EnnemyChaseState))
+            materials[0] = StateMaterials[0];
+        else if (state == typeof(EnnemyWanderState))
+            materials[0] = StateMaterials[1];
+        else if (state == typeof(EnnemyFleeState))
+            materials[0] = StateMaterials[2];
+        else if (state == typeof(EnnemyEatingState))
+            materials[0] = StateMaterials[3];
+        //else if (state == typeof(EnnemyDeadState))
+        //    materials[0] = StateMaterials[4];
 
-
-            wanderForce = circleCenter + displacement;
-        }
-        return wanderForce;
+        renderer.materials = materials;
     }
 
-    public void FleeSwan(Transform swan)
+    public void FleeSwan()
     {
-        this.Swan = swan;
-        ennemyState = EnnemyState.Fleeing;
-
-        Invoke("StartWandering", 5);
+        target = null;
+        stateMachine.SetState(typeof(EnnemyFleeState));
     }
 
-    private void StartWandering()
-    {
-        ennemyState = EnnemyState.Wandering;
-    }
-
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if(!eating && other.gameObject.GetComponent<BabySwanController>())
-        {
-            StartCoroutine(StartEating(other.gameObject));
-        }
-    }
-
-    IEnumerator StartEating(GameObject obj)
-    {
-        eating = true;
-        float startTime = Time.time;
-        while(Time.time<startTime+3)
-        {
-            if (Vector3.Distance(transform.position, obj.transform.position) > 1.5f)
-            {
-                eating = false;
-                break;
-            }
-            yield return null;
-        }
-        if(eating)
-        {
-            obj.GetComponent<BabySwanController>().Dies();
-            UpdateState();
-            eating = false;
-        }
-    }
-
-
-
+    
     public Vector3 GetPosition()
     {
         return transform.position;

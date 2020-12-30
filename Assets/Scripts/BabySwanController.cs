@@ -106,28 +106,6 @@ public class BabySwanController : MonoBehaviour, IBoid
     // Update is called once per frame
     void Update()
     {
-        //babyState = UpdateState();
-
-        //switch(babyState)
-        //{
-        //    case BabyState.Following:
-        //        babyMaterial.color = Color.green;
-        //        steeringForce = Follow();
-        //        break;
-        //    case BabyState.Fleeing:
-        //        babyMaterial.color = Color.red;
-        //        steeringForce = Flee();
-        //        break;
-        //    case BabyState.Wandering:
-        //        babyMaterial.color = Color.yellow;
-        //        steeringForce = Wander();
-        //        break;
-        //}
-
-        //if(steeringForce!=Vector3.zero)
-        //    steeringForce = Vector3.ClampMagnitude(steeringForce, maxForce) / mass;
-        //velocity = Vector3.ClampMagnitude(velocity + steeringForce, MAX_VELOCITY);
-
         stateMachine.UpdateStateMachine();
 
         Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();

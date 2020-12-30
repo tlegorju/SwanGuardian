@@ -448,59 +448,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3195094a5da204c409840291808bb452, type: 3}
---- !u!1 &585493280 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8625956866239825117, guid: e361ddbc2ab294d45b427b162ba84389,
+--- !u!114 &585493287 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 585493287, guid: e361ddbc2ab294d45b427b162ba84389,
     type: 3}
   m_PrefabInstance: {fileID: 1698260242}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &585493284
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585493280}
+  m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b39f74ba7abe74b4497e461ff370bd27, type: 3}
+  m_Script: {fileID: 11500000, guid: 856ff5b0acd617d4f87f0f524f3d372d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!195 &585493285
-NavMeshAgent:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585493280}
-  m_Enabled: 1
-  m_AgentTypeID: 0
-  m_Radius: 0.5
-  m_Speed: 3.5
-  m_Acceleration: 8
-  avoidancePriority: 50
-  m_AngularSpeed: 120
-  m_StoppingDistance: 0
-  m_AutoTraverseOffMeshLink: 1
-  m_AutoBraking: 1
-  m_AutoRepath: 1
-  m_Height: 2
-  m_BaseOffset: 0
-  m_WalkableMask: 4294967295
-  m_ObstacleAvoidanceType: 4
---- !u!114 &585493286
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 585493280}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 71257f1bfffc5b3418df37465f82ec4e, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  maxSteeringForce: 1
 --- !u!1 &626533254
 GameObject:
   m_ObjectHideFlags: 0
@@ -1819,15 +1778,14 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 585493286, guid: e361ddbc2ab294d45b427b162ba84389, type: 3}
+      propertyPath: maxSteeringForce
+      value: 30
+      objectReference: {fileID: 0}
     - target: {fileID: 8625956866239825117, guid: e361ddbc2ab294d45b427b162ba84389,
         type: 3}
       propertyPath: m_Name
       value: Ennemy
-      objectReference: {fileID: 0}
-    - target: {fileID: 8625956866239825117, guid: e361ddbc2ab294d45b427b162ba84389,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8625956866239825118, guid: e361ddbc2ab294d45b427b162ba84389,
         type: 3}
@@ -1884,6 +1842,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 8625956866239825119, guid: e361ddbc2ab294d45b427b162ba84389,
+        type: 3}
+      propertyPath: Fov
+      value: 
+      objectReference: {fileID: 585493287}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e361ddbc2ab294d45b427b162ba84389, type: 3}
 --- !u!1 &1817639641
@@ -2463,11 +2426,6 @@ PrefabInstance:
       propertyPath: screamWave
       value: 
       objectReference: {fileID: 2077807320}
-    - target: {fileID: 1869083003889440495, guid: 31049f79c83b6e740bf25b861b2b903b,
-        type: 3}
-      propertyPath: screamRange
-      value: 10
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 31049f79c83b6e740bf25b861b2b903b, type: 3}
 --- !u!1001 &4155429672525905287

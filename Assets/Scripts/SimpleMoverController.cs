@@ -60,7 +60,7 @@ public class SimpleMoverController : MonoBehaviour, IBoid
 
         for (int i = 0; i < colliders.Length; i++)
         {
-            colliders[i].gameObject.GetComponent<EnnemyController>()?.FleeSwan(transform);
+            colliders[i].gameObject.GetComponent<EnnemyController>()?.FleeSwan();
             colliders[i].gameObject.GetComponent<BabyStateMachine>()?.SetState(typeof(BabyFollowState));
         }
     }

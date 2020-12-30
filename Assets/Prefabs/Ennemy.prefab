@@ -104,6 +104,10 @@ GameObject:
   - component: {fileID: 8625956866239825118}
   - component: {fileID: 8625956866239825119}
   - component: {fileID: 8625956866239825112}
+  - component: {fileID: 585493284}
+  - component: {fileID: 585493285}
+  - component: {fileID: 585493286}
+  - component: {fileID: 585493287}
   m_Layer: 0
   m_Name: Ennemy
   m_TagString: Rat
@@ -143,11 +147,15 @@ MonoBehaviour:
   maxForce: 30
   followDistance: 3
   fleeDistance: 4
+  steeringBehavior: {fileID: 585493286}
+  stateMachine: {fileID: 585493284}
+  Fov: {fileID: 0}
+  ennemyMaterial: {fileID: 2100000, guid: f2f19ed00ab82dc41b0d5e82ea3c58a2, type: 2}
+  StateMaterials: []
   ennemyState: 2
   Swan: {fileID: 0}
   targets:
   - {fileID: 0}
-  ennemyMaterial: {fileID: 2100000, guid: f2f19ed00ab82dc41b0d5e82ea3c58a2, type: 2}
 --- !u!136 &8625956866239825112
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -162,6 +170,65 @@ CapsuleCollider:
   m_Height: 1.4
   m_Direction: 2
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &585493284
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625956866239825117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b39f74ba7abe74b4497e461ff370bd27, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!195 &585493285
+NavMeshAgent:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625956866239825117}
+  m_Enabled: 1
+  m_AgentTypeID: 0
+  m_Radius: 0.5
+  m_Speed: 3.5
+  m_Acceleration: 8
+  avoidancePriority: 50
+  m_AngularSpeed: 120
+  m_StoppingDistance: 0
+  m_AutoTraverseOffMeshLink: 1
+  m_AutoBraking: 1
+  m_AutoRepath: 1
+  m_Height: 2
+  m_BaseOffset: 0
+  m_WalkableMask: 4294967295
+  m_ObstacleAvoidanceType: 4
+--- !u!114 &585493286
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625956866239825117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 71257f1bfffc5b3418df37465f82ec4e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  maxSteeringForce: 1
+--- !u!114 &585493287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625956866239825117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856ff5b0acd617d4f87f0f524f3d372d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &8625956866959076175
 GameObject:
   m_ObjectHideFlags: 0
