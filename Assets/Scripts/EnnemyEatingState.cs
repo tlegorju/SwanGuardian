@@ -9,47 +9,58 @@ public class EnnemyEatingState : IState
     private StateMachine owner;
     public StateMachine Owner { get { return owner; } }
 
+    private EnnemyController controller;
+
     private SteeringBehavior steeringBehavior;
+    private Transform mouthTransform;
+    private Transform eatenTarget;
+    private BabySwanController targetController;
 
     public float fleeDistance = 5;
     public LayerMask OBSTACLES_MASK;
 
-    public const float STATE_SPEED = 11;
+    public const float STATE_SPEED = .5f;
     public Color STATE_COLOR = Color.red;
 
-    public float stateDuration = 5;
-    private float startTimeState;
+    public const float DAMAGES_PER_SECONDS = .2f;
 
-    public EnnemyEatingState(StateMachine owner, SteeringBehavior steering)
+    public EnnemyEatingState(StateMachine owner, SteeringBehavior steering, Transform MouthTransform)
     {
         this.owner = owner;
         this.steeringBehavior = steering;
+        this.mouthTransform = MouthTransform;
     }
 
     public void Enter()
     {
-        owner.GetComponent<EnnemyController>().UpdateEnnemyMaterial(this.GetType());
+        controller = owner.GetComponent<EnnemyController>();
+        controller.UpdateEnnemyMaterial(this.GetType());
         OBSTACLES_MASK = owner.GetComponent<EnnemyController>().ObstaclesMask;
-        owner.GetComponent<EnnemyController>().MAX_VELOCITY = STATE_SPEED;
+        controller.MAX_VELOCITY = STATE_SPEED;
 
-        startTimeState = Time.time;
+        eatenTarget = controller.target;
+        targetController = eatenTarget.GetComponent<BabySwanController>();
     }
 
     public Type Execute()
     {
-        if (Time.time >= startTimeState + stateDuration)
-            return typeof(EnnemyWanderState);
-
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)
         {
+            if (agentTab[i].GetTransform() == eatenTarget)
+                continue;
             if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
             {
-                steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance), 1);
+                steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance), .5f);
             }
         }
         steeringBehavior.AddForce(steeringBehavior.Flee(SwanController.Instance.transform.position), 1);
         steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
+
+        if (targetController.LoseLife(DAMAGES_PER_SECONDS * Time.deltaTime))
+            return typeof(EnnemyWanderState);
+        eatenTarget.position = Vector3.MoveTowards(eatenTarget.position, mouthTransform.position, .5f);
+
         return GetType();
     }
 

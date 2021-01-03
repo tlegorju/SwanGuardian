@@ -23,6 +23,7 @@ public class BabyStateMachine : StateMachine
         babyStates.Add(typeof(BabyFollowState), new BabyFollowState(this, steering, leader));
         babyStates.Add(typeof(BabyFleeState), new BabyFleeState(this, steering));
         babyStates.Add(typeof(BabyWanderState), new BabyWanderState(this, steering));
+        babyStates.Add(typeof(BabyDraggedState), new BabyDraggedState(this, steering));
         babyStates.Add(typeof(BabySafeState), new BabySafeState());
         babyStates.Add(typeof(BabyDeadState), new BabyDeadState());
 

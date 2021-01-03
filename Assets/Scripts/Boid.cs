@@ -10,4 +10,6 @@ public interface IBoid
     Vector3 GetVelocity();
     float GetMaxVelocity();
     float GetMass();
+
+    Transform GetTransform();
 }

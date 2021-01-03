@@ -8,6 +8,8 @@ using UnityEngine.AI;
 public class BabySwanController : MonoBehaviour, IBoid
 {
     public bool alive = true;
+    private float life = 1;
+    public float Life { get { return life; } }
 
     [SerializeField] public float MAX_VELOCITY = 5;
     [SerializeField] private Vector3 velocity = new Vector3(0, 0, 1);
@@ -119,58 +121,10 @@ public class BabySwanController : MonoBehaviour, IBoid
             transform.forward = velocity.normalized;
     }
 
-    //private BabyState UpdateState()
-    //{
-    //    for(int i=0;i<ennemies.Length; i++)
-    //    {
-    //        if (Vector3.Distance(transform.position, ennemies[i].position) < fleeDistance)
-    //            return BabyState.Fleeing;
-    //    }
-
-    //    if (leader!=null && Vector3.Distance(transform.position, leader.position) < followDistance)
-    //        return BabyState.Following;
-
-    //    return BabyState.Wandering;
-    //}
-
-    //private Vector3 Follow()
-    //{
-    //    return (leader.position - GetPosition()).normalized * MAX_VELOCITY;
-    //}
-
-    //private Vector3 Flee()
-    //{
-    //    Vector3 steering=Vector3.zero;
-    //    for(int i=0; i<ennemies.Length; i++)
-    //    {
-    //        float distance = Vector3.Distance(GetPosition(), ennemies[i].position);
-    //        if (distance > maxFleeDistance)
-    //            continue;
-    //        steering += (GetPosition() - ennemies[i].position).normalized / distance;
-    //    }
-    //    return (steering).normalized * MAX_VELOCITY;
-    //}
-
-    //private Vector3 Wander()
-    //{
-    //    if (Random.value < turnChance)
-    //    {
-    //        Vector3 circleCenter = velocity.normalized * circleDistance;
-
-    //        Vector3 randomPoint = Random.insideUnitCircle;//was UnitCircle
-    //        randomPoint = new Vector3(randomPoint.x, 0, randomPoint.y);
-    //        Vector3 displacement = randomPoint * circleRadius;
-    //        displacement = Quaternion.LookRotation(velocity) * displacement;
-
-    //        wanderForce = circleCenter + displacement;
-    //    }
-    //    return wanderForce;
-    //}
-
     public void Dies()
     {
-        BabySwanManager.Instance.OnBabyDies(this);
-        Destroy(gameObject);
+        BabySwanManager.Instance?.OnBabyDies(this);
+        Destroy(gameObject, 1);
     }
 
     private void OnTriggerEnter(Collider other)
@@ -180,10 +134,21 @@ public class BabySwanController : MonoBehaviour, IBoid
             BabySwanManager.Instance.OnBabySaved(this);
             Destroy(this);
         }
-        else if(other.gameObject.CompareTag("Rat"))
+        //else if(other.gameObject.CompareTag("Rat"))
+        //{
+        //    stateMachine.SetState(typeof(BabyFleeState));
+        //}
+    }
+
+    public bool LoseLife(float damages) //Damages between 0 & 1
+    {
+        life -= damages;
+        if(life<=0)
         {
-            stateMachine.SetState(typeof(BabyFleeState));
+            Dies();
+            return true;
         }
+        return false;
     }
 
     public void UpdateBabyMaterial(Color newColor)
@@ -234,5 +199,10 @@ public class BabySwanController : MonoBehaviour, IBoid
     public float GetMass()
     {
         return mass;
+    }
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

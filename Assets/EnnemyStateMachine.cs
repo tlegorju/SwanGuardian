@@ -23,7 +23,7 @@ public class EnnemyStateMachine : StateMachine
         ennemyStates.Add(typeof(EnnemyChaseState), new EnnemyChaseState(this, steering));
         ennemyStates.Add(typeof(EnnemyFleeState), new EnnemyFleeState(this, steering));
         ennemyStates.Add(typeof(EnnemyWanderState), new EnnemyWanderState(this, steering));
-        //ennemyStates.Add(typeof(EnnemyEatingState), new EnnemyEatingState());
+        ennemyStates.Add(typeof(EnnemyEatingState), new EnnemyEatingState(this, steering, GetComponent<EnnemyController>().MouthTransform));
         //ennemyStates.Add(typeof(EnnemyDeadState), new EnnemyDeadState());
 
         //ennemyStates.TryGetValue(typeof(EnnemyWanderState), out currentState);

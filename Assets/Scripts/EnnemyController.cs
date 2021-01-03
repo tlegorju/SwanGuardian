@@ -23,6 +23,7 @@ public class EnnemyController : MonoBehaviour, IBoid
     [SerializeField] SteeringBehavior steeringBehavior;
     [SerializeField] EnnemyStateMachine stateMachine;
     [SerializeField] FieldOfView Fov;
+    public Transform MouthTransform;
 
     public int ObstaclesMask { get; private set; }
 
@@ -81,6 +82,7 @@ public class EnnemyController : MonoBehaviour, IBoid
 
         Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();
 
+        Debug.Log(GetMaxVelocity());
         velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
 
         GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);
@@ -173,6 +175,10 @@ public class EnnemyController : MonoBehaviour, IBoid
 
     public void FleeSwan()
     {
+        if(target)
+        {
+            target.position = transform.position;
+        }
         target = null;
         stateMachine.SetState(typeof(EnnemyFleeState));
     }
@@ -201,5 +207,11 @@ public class EnnemyController : MonoBehaviour, IBoid
     public float GetMass()
     {
         return mass;
+    }
+
+
+    public Transform GetTransform()
+    {
+        return transform;
     }
 }

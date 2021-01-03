@@ -114,4 +114,9 @@ public class SimpleMoverController : MonoBehaviour, IBoid
     {
         return 10;
     }
+
+    public Transform GetTransform()
+    {
+        return transform;
+    }
 }
