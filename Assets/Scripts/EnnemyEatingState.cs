@@ -19,7 +19,7 @@ public class EnnemyEatingState : IState
     public float fleeDistance = 5;
     public LayerMask OBSTACLES_MASK;
 
-    public const float STATE_SPEED = .5f;
+    public const float STATE_SPEED = 5f;
     public Color STATE_COLOR = Color.red;
 
     public const float DAMAGES_PER_SECONDS = .2f;
@@ -40,6 +40,7 @@ public class EnnemyEatingState : IState
 
         eatenTarget = controller.target;
         targetController = eatenTarget.GetComponent<BabySwanController>();
+        targetController.StartBeingDragged();
     }
 
     public Type Execute()

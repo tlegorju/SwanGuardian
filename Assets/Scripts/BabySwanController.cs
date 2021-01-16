@@ -33,9 +33,10 @@ public class BabySwanController : MonoBehaviour, IBoid
 
     [SerializeField] SteeringBehavior steeringBehavior;
     [SerializeField] BabyStateMachine stateMachine;
+    [SerializeField] FieldOfView Fov;
 
 
-     public int ObstaclesMask { get; private set; }
+    public int ObstaclesMask { get; private set; }
 
     //public enum BabyState
     //{
@@ -97,12 +98,16 @@ public class BabySwanController : MonoBehaviour, IBoid
         materials = renderer.materials;
 
         ObstaclesMask = LayerMask.GetMask("Obstacle");
+
+        if (Fov == null)
+            Fov = GetComponent<FieldOfView>();
     }
 
     // Start is called before the first frame update
     void Start()
     {
-        
+        Fov.OnEnterFOV += OnSeenSmth;
+        Fov.OnExitFOV += OnLostSightOfSmth;
     }
 
     // Update is called once per frame
@@ -125,6 +130,11 @@ public class BabySwanController : MonoBehaviour, IBoid
     {
         BabySwanManager.Instance?.OnBabyDies(this);
         Destroy(gameObject, 1);
+    }
+
+    public void StartBeingDragged()
+    {
+        stateMachine.SetState(typeof(BabyDraggedState));
     }
 
     private void OnTriggerEnter(Collider other)
@@ -174,6 +184,29 @@ public class BabySwanController : MonoBehaviour, IBoid
 
         renderer.materials = materials;
     }
+
+
+    private void OnSeenSmth(Transform obj)
+    {
+        if (obj.GetComponent<EnnemyController>())
+        {
+            stateMachine.SetState(typeof(BabyFleeState));
+        }
+    }
+
+    private void OnLostSightOfSmth(Transform obj)
+    {
+        //if (target == null)
+        //    return;
+        //if (obj.Equals(target))
+        //{
+        //    Debug.Log("LOST TARGET");
+        //    target = FindClosestTarget();
+        //    Debug.Log("NEW TARGET : " + target.gameObject.name);
+        //}
+    }
+
+
 
 
     public Vector3 GetPosition()

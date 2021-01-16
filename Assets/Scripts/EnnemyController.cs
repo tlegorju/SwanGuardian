@@ -82,7 +82,6 @@ public class EnnemyController : MonoBehaviour, IBoid
 
         Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();
 
-        Debug.Log(GetMaxVelocity());
         velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
 
         GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);

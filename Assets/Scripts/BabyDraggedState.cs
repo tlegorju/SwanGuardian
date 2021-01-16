@@ -25,10 +25,13 @@ public class BabyDraggedState : IState
 
     public void Enter()
     {
+        Debug.Log("ENTER");
         owner.GetComponent<BabySwanController>().UpdateBabyMaterial(this.GetType());
         OBSTACLES_MASK = owner.GetComponent<BabySwanController>().ObstaclesMask;
         owner.GetComponent<BabySwanController>().MAX_VELOCITY = STATE_SPEED;
 
+        Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+        Owner.GetComponent<Collider>().enabled = false;
     }
 
     public Type Execute()
@@ -38,7 +41,8 @@ public class BabyDraggedState : IState
 
     public void Exit()
     {
-
+        Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
+        Owner.GetComponent<Collider>().enabled = true;
     }
 
     public void OnDrawGizmos()

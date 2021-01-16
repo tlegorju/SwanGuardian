@@ -15,6 +15,7 @@ GameObject:
   - component: {fileID: 974412538}
   - component: {fileID: 974412539}
   - component: {fileID: 424832731}
+  - component: {fileID: 6289956514550089895}
   m_Layer: 0
   m_Name: BabySwan
   m_TagString: Untagged
@@ -139,6 +140,18 @@ NavMeshAgent:
   m_BaseOffset: 0
   m_WalkableMask: 1
   m_ObstacleAvoidanceType: 4
+--- !u!114 &6289956514550089895
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693696111973889653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 856ff5b0acd617d4f87f0f524f3d372d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &7110435287936715212
 PrefabInstance:
   m_ObjectHideFlags: 0
