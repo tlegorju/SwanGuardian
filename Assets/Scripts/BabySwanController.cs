@@ -10,26 +10,12 @@ public class BabySwanController : MonoBehaviour, IBoid
     public bool alive = true;
     private float life = 1;
     public float Life { get { return life; } }
+    public event Action<float> OnLoseLife = delegate { };
 
     [SerializeField] public float MAX_VELOCITY = 5;
     [SerializeField] private Vector3 velocity = new Vector3(0, 0, 1);
     [SerializeField] private float mass = 10;
 
-    //private Vector3 steeringForce= Vector3.zero;
-    //[SerializeField] float maxForce = 30;
-
-    //[Header("FOLLOW STATE")]
-    //public float followDistance = 5;
-
-    //[Header("FLEE STATE")]
-    //public float fleeDistance = 4;
-    //public float maxFleeDistance = 10;
-
-    //[Header("WANDER STATE")]
-    //private Vector3 wanderForce = Vector3.zero;
-    //public float turnChance = 0.05f;
-    //public float circleRadius = 1;
-    //public float circleDistance = 1;
 
     [SerializeField] SteeringBehavior steeringBehavior;
     [SerializeField] BabyStateMachine stateMachine;
@@ -37,15 +23,6 @@ public class BabySwanController : MonoBehaviour, IBoid
 
 
     public int ObstaclesMask { get; private set; }
-
-    //public enum BabyState
-    //{
-    //    Following,
-    //    Fleeing,
-    //    Wandering
-    //};
-
-    //public BabyState babyState;
 
     public Transform leader;
     //public Transform[] ennemies;
@@ -115,6 +92,9 @@ public class BabySwanController : MonoBehaviour, IBoid
     {
         stateMachine.UpdateStateMachine();
 
+        if (GetMaxVelocity() <= 0)
+            return;
+
         Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();
 
         velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
@@ -153,7 +133,9 @@ public class BabySwanController : MonoBehaviour, IBoid
     public bool LoseLife(float damages) //Damages between 0 & 1
     {
         life -= damages;
-        if(life<=0)
+        OnLoseLife(life);
+
+        if (life<=0)
         {
             Dies();
             return true;

@@ -17,6 +17,9 @@ public class BabyFleeState : IState
     public const float STATE_SPEED = 11;
     public Color STATE_COLOR = Color.red;
 
+    public float stateDuration = 3;
+    private float startTime = 0;
+
     public BabyFleeState(StateMachine owner, SteeringBehavior steering)
     {
         this.owner = owner;
@@ -29,21 +32,28 @@ public class BabyFleeState : IState
         OBSTACLES_MASK = owner.GetComponent<BabySwanController>().ObstaclesMask;
         owner.GetComponent<BabySwanController>().MAX_VELOCITY = STATE_SPEED;
 
+        startTime = Time.time;
     }
 
     public Type Execute()
     {
+        if(Time.time >= startTime+stateDuration)
+        {
+            return typeof(BabyWanderState);
+        }
+
+        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance),5);
+        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(fleeDistance, OBSTACLES_MASK, 180 / 2), 5f);
+
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)
         {
-            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
+            if(agentTab[i].GetTransform().GetComponent<EnnemyController>())
             {
-                steeringBehavior.AvoidAllAgent(fleeDistance);
-                steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
-                return this.GetType();
+                steeringBehavior.AddForce(steeringBehavior.Flee(agentTab[i].GetPosition()), 1);
             }
         }
-        return typeof(BabyFollowState);
+        return this.GetType();
     }
 
     public void Exit()
