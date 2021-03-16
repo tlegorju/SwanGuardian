@@ -14,8 +14,6 @@ public class SteeringBehavior : MonoBehaviour
     {
         boid = GetComponent<IBoid>();
         agentList.Add(boid);
-
-        Debug.Log("BOID LIST : " + agentList.Count);
     }
 
     public void AddForce(Vector3 force, float weight)

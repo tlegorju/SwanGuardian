@@ -6,7 +6,22 @@ ModelImporter:
   - first:
       74: -623603649343465320
     second: Scene
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_BlackShit
+    second: {fileID: 2100000, guid: ecb1f286b90b0f34888b807b3371de7a, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_OrangeBeak
+    second: {fileID: 2100000, guid: 2177f9d09ffe22e4181f14b5f0e5c996, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: MAT_WhiteFeature
+    second: {fileID: 2100000, guid: 7071ff996ad4e1d46862c8f537c168bb, type: 2}
   materials:
     materialImportMode: 1
     materialName: 0

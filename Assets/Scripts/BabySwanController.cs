@@ -109,7 +109,7 @@ public class BabySwanController : MonoBehaviour, IBoid
     public void Dies()
     {
         BabySwanManager.Instance?.OnBabyDies(this);
-        Destroy(gameObject, 1);
+        Destroy(gameObject, .1f);
     }
 
     public void StartBeingDragged()
@@ -124,10 +124,6 @@ public class BabySwanController : MonoBehaviour, IBoid
             BabySwanManager.Instance.OnBabySaved(this);
             Destroy(this);
         }
-        //else if(other.gameObject.CompareTag("Rat"))
-        //{
-        //    stateMachine.SetState(typeof(BabyFleeState));
-        //}
     }
 
     public bool LoseLife(float damages) //Damages between 0 & 1
@@ -146,7 +142,7 @@ public class BabySwanController : MonoBehaviour, IBoid
     public void UpdateBabyMaterial(Color newColor)
     {
         babyMaterial.color = newColor;
-        Debug.Log("Color : " + babyMaterial.color);
+
         materials[0] = babyMaterial;
         renderer.materials = materials;
     }
@@ -170,7 +166,7 @@ public class BabySwanController : MonoBehaviour, IBoid
 
     private void OnSeenSmth(Transform obj)
     {
-        if (obj.GetComponent<EnnemyController>())
+        if (obj.GetComponent<EnnemyController>() && stateMachine.CurrentState.GetType()!=typeof(BabyDraggedState))
         {
             stateMachine.SetState(typeof(BabyFleeState));
         }

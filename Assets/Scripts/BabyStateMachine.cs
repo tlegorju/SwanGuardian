@@ -8,7 +8,7 @@ public class BabyStateMachine : StateMachine
     Dictionary<Type, IState> babyStates = new Dictionary<Type, IState>();
 
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         currentState?.OnDrawGizmos();
     }

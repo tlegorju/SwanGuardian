@@ -22,7 +22,8 @@ public class LookAtCamera : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        transform.forward = -cameraToLookAt.transform.forward;
-        transform.rotation = cameraToLookAt.transform.rotation;
+        transform.rotation = Quaternion.LookRotation(-cameraToLookAt.transform.forward, cameraToLookAt.transform.up);
+        //transform.forward = -cameraToLookAt.transform.forward;
+        //transform.rotation = cameraToLookAt.transform.rotation;
     }
 }

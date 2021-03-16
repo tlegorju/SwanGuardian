@@ -88,7 +88,12 @@ public class EnnemyController : MonoBehaviour, IBoid
 
         //Translate(velocity * Time.deltaTime);
         if (velocity.normalized != Vector3.zero)
-            transform.forward = velocity.normalized;
+        {
+            if (stateMachine.CurrentState.GetType() != typeof(EnnemyEatingState))
+                transform.forward = velocity.normalized;
+            else
+                transform.forward = -velocity.normalized;
+        }
     }
 
 
@@ -97,7 +102,6 @@ public class EnnemyController : MonoBehaviour, IBoid
         if (!target && obj.GetComponent<BabySwanController>())
         {
             target = obj;
-            Debug.Log("target : " + target.gameObject.name);
         }
     }
 

@@ -18,7 +18,7 @@ public class SimpleMoverController : MonoBehaviour, IBoid
     NavMeshAgent navMeshAgent;
 
 
-    private void OnDrawGizmos()
+    private void OnDrawGizmosSelected()
     {
         Handles.color = Color.white;
         Handles.DrawWireDisc(transform.position, Vector3.up, screamRange);

@@ -46,17 +46,17 @@ public class EnnemyEatingState : IState
     public Type Execute()
     {
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
-        for (int i = 0; i < agentTab.Length; i++)
-        {
-            if (agentTab[i].GetTransform() == eatenTarget)
-                continue;
-            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
-            {
-                steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance), .5f);
-            }
-        }
+        //for (int i = 0; i < agentTab.Length; i++)
+        //{
+        //    if (agentTab[i].GetTransform() == eatenTarget)
+        //        continue;
+        //    if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
+        //    {
+        //        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance), .5f);
+        //    }
+        //}
         steeringBehavior.AddForce(steeringBehavior.Flee(SwanController.Instance.transform.position), 1);
-        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
+        //steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
 
         if (targetController.LoseLife(DAMAGES_PER_SECONDS * Time.deltaTime))
             return typeof(EnnemyWanderState);
