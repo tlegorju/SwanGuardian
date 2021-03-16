@@ -124,7 +124,8 @@ public class EnnemyController : MonoBehaviour, IBoid
 
         for(int i=0; i<Fov.transformInSight.Count; i++)
         {
-            if(Fov.transformInSight[i].GetComponent<BabySwanController>())
+            BabySwanController bbController = Fov.transformInSight[i].GetComponent<BabySwanController>();
+            if (bbController!=null && bbController.alive)
             {
                 if(sqrDistanceToTarget==-1)
                 {

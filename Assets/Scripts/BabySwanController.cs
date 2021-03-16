@@ -108,8 +108,10 @@ public class BabySwanController : MonoBehaviour, IBoid
 
     public void Dies()
     {
+        alive = false;
+        stateMachine.SetState(typeof(BabyDeadState));
         BabySwanManager.Instance?.OnBabyDies(this);
-        Destroy(gameObject, .1f);
+        Destroy(gameObject, 1f);
     }
 
     public void StartBeingDragged()
@@ -166,7 +168,7 @@ public class BabySwanController : MonoBehaviour, IBoid
 
     private void OnSeenSmth(Transform obj)
     {
-        if (obj.GetComponent<EnnemyController>() && stateMachine.CurrentState.GetType()!=typeof(BabyDraggedState))
+        if (obj.GetComponent<EnnemyController>() && stateMachine.CurrentState.GetType()!=typeof(BabyDraggedState) && stateMachine.CurrentState.GetType() != typeof(BabyDeadState))
         {
             stateMachine.SetState(typeof(BabyFleeState));
         }

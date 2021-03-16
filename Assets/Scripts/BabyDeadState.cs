@@ -8,14 +8,21 @@ public class BabyDeadState : IState
     private StateMachine owner;
     public StateMachine Owner { get { return owner; } }
 
-    public void Enter()
+
+    public BabyDeadState(StateMachine owner)
     {
-        
+        this.owner = owner;
     }
 
-    public void Execute()
+    public void Enter()
     {
-        
+        Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
+        Owner.GetComponent<Collider>().enabled = false;
+    }
+
+    public Type Execute()
+    {
+        return this.GetType();
     }
 
     public void Exit()
@@ -25,11 +32,6 @@ public class BabyDeadState : IState
 
     public void OnDrawGizmos()
     {
-        throw new NotImplementedException();
-    }
 
-    Type IState.Execute()
-    {
-        throw new NotImplementedException();
     }
 }

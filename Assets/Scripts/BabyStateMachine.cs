@@ -25,7 +25,7 @@ public class BabyStateMachine : StateMachine
         babyStates.Add(typeof(BabyWanderState), new BabyWanderState(this, steering));
         babyStates.Add(typeof(BabyDraggedState), new BabyDraggedState(this, steering));
         babyStates.Add(typeof(BabySafeState), new BabySafeState());
-        babyStates.Add(typeof(BabyDeadState), new BabyDeadState());
+        babyStates.Add(typeof(BabyDeadState), new BabyDeadState(this));
 
         babyStates.TryGetValue(typeof(BabyFollowState), out currentState);
         //SetState(defaultState);
