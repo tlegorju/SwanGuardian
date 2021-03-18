@@ -7,6 +7,7 @@ public class EnnemyStateMachine : StateMachine
 {
     Dictionary<Type, IState> ennemyStates = new Dictionary<Type, IState>();
 
+    public PerimeterController perimeterController;
 
     private void OnDrawGizmos()
     {
@@ -20,6 +21,7 @@ public class EnnemyStateMachine : StateMachine
 
     public void Initialize(Type defaultState, SteeringBehavior steering)
     {
+        ennemyStates.Add(typeof(EnnemyIdleState), new EnnemyIdleState(this, steering, perimeterController));
         ennemyStates.Add(typeof(EnnemyChaseState), new EnnemyChaseState(this, steering));
         ennemyStates.Add(typeof(EnnemyFleeState), new EnnemyFleeState(this, steering));
         ennemyStates.Add(typeof(EnnemyWanderState), new EnnemyWanderState(this, steering));
