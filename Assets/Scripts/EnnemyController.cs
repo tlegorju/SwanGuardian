@@ -8,7 +8,7 @@ public class EnnemyController : MonoBehaviour, IBoid
 {
     [SerializeField] public float MAX_VELOCITY = 5;
     private Vector3 velocity=new Vector3(0,0,1);
-    private float mass = 10;
+    [SerializeField] private float mass = 10;
 
     private Vector3 steeringForce= Vector3.zero;
     [SerializeField] float maxForce = 30;
@@ -69,7 +69,7 @@ public class EnnemyController : MonoBehaviour, IBoid
     // Start is called before the first frame update
     void Start()
     {
-        stateMachine.Initialize(typeof(EnnemyWanderState), steeringBehavior);
+        stateMachine.Initialize(typeof(EnnemyIdleState), steeringBehavior);
 
         Fov.OnEnterFOV += OnSeenSmth;
         Fov.OnExitFOV += OnLostSightOfSmth;

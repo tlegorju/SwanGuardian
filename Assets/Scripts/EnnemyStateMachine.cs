@@ -9,6 +9,8 @@ public class EnnemyStateMachine : StateMachine
 
     public PerimeterController perimeterController;
 
+    [SerializeField] private EnnemyStateScriptableObject idleStateData, chaseStateData, fleeStateData, wanderStateData, eatingStateData;
+
     private void OnDrawGizmos()
     {
         currentState?.OnDrawGizmos();
@@ -21,11 +23,11 @@ public class EnnemyStateMachine : StateMachine
 
     public void Initialize(Type defaultState, SteeringBehavior steering)
     {
-        ennemyStates.Add(typeof(EnnemyIdleState), new EnnemyIdleState(this, steering, perimeterController));
-        ennemyStates.Add(typeof(EnnemyChaseState), new EnnemyChaseState(this, steering));
-        ennemyStates.Add(typeof(EnnemyFleeState), new EnnemyFleeState(this, steering));
-        ennemyStates.Add(typeof(EnnemyWanderState), new EnnemyWanderState(this, steering));
-        ennemyStates.Add(typeof(EnnemyEatingState), new EnnemyEatingState(this, steering, GetComponent<EnnemyController>().MouthTransform));
+        ennemyStates.Add(typeof(EnnemyIdleState), new EnnemyIdleState(this, steering, perimeterController, idleStateData));
+        ennemyStates.Add(typeof(EnnemyChaseState), new EnnemyChaseState(this, steering, chaseStateData));
+        ennemyStates.Add(typeof(EnnemyFleeState), new EnnemyFleeState(this, steering, fleeStateData));
+        ennemyStates.Add(typeof(EnnemyWanderState), new EnnemyWanderState(this, steering, wanderStateData));
+        ennemyStates.Add(typeof(EnnemyEatingState), new EnnemyEatingState(this, steering, GetComponent<EnnemyController>().MouthTransform, eatingStateData));
         //ennemyStates.Add(typeof(EnnemyDeadState), new EnnemyDeadState());
 
         //ennemyStates.TryGetValue(typeof(EnnemyWanderState), out currentState);

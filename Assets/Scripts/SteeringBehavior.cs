@@ -107,29 +107,29 @@ public class SteeringBehavior : MonoBehaviour
         return avoidance.normalized * boid.GetMaxVelocity();
     }
 
-    public Vector3 AvoidObstacles(float avoidDistance, LayerMask obstacleMask, float fieldOfViewHalfAngle, float numberOfFOVSteps=10)
+    public Vector3 AvoidObstacles(Transform fovOrigin, float avoidDistance, LayerMask obstacleMask, float fieldOfViewHalfAngle, float numberOfFOVSteps=10)
     {
         //Debug.Log(IsHeadingTowardsObstacle(avoidDistance, obstacleMask));
-        if(!IsHeadingTowardsObstacle(avoidDistance, obstacleMask))
+        if(!IsHeadingTowardsObstacle(fovOrigin, avoidDistance, obstacleMask))
             return Vector3.zero;
 
         for(float i= fieldOfViewHalfAngle / numberOfFOVSteps; i<fieldOfViewHalfAngle; i+=fieldOfViewHalfAngle/numberOfFOVSteps)
         {
-            Vector3 dir = (Quaternion.AngleAxis(i, Vector3.up) * transform.forward).normalized;
-            if (!Physics.Raycast(new Ray(transform.position, dir), avoidDistance, obstacleMask))
+            Vector3 dir = (Quaternion.AngleAxis(i, Vector3.up) * fovOrigin.forward).normalized;
+            if (!Physics.Raycast(new Ray(fovOrigin.position, dir), avoidDistance, obstacleMask))
                 return dir * boid.GetMaxVelocity();
 
-            dir = (Quaternion.AngleAxis(-i, Vector3.up) * transform.forward).normalized;
-            if (!Physics.Raycast(new Ray(transform.position, dir), avoidDistance, obstacleMask))
+            dir = (Quaternion.AngleAxis(-i, Vector3.up) * fovOrigin.forward).normalized;
+            if (!Physics.Raycast(new Ray(fovOrigin.position, dir), avoidDistance, obstacleMask))
                 return dir * boid.GetMaxVelocity();
         }
 
         return Vector3.zero;
     }
 
-    private bool IsHeadingTowardsObstacle(float avoidDistance, LayerMask obstacleMask)
+    private bool IsHeadingTowardsObstacle(Transform fovOrigin, float avoidDistance, LayerMask obstacleMask)
     {
-        return Physics.Raycast(new Ray(transform.position, transform.forward), avoidDistance, obstacleMask);
+        return Physics.Raycast(new Ray(fovOrigin.position, fovOrigin.forward), avoidDistance, obstacleMask);
     }
 
     public float AngleBetweenVectors(Vector3 a, Vector3 b)

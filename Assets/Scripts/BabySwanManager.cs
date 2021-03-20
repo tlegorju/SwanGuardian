@@ -20,6 +20,18 @@ public class BabySwanManager : MonoBehaviour
         instance = this;
     }
 
+    // Start is called before the first frame update
+    void Start()
+    {
+        babySwans = FindObjectsOfType<BabySwanController>();
+    }
+
+    // Update is called once per frame
+    void Update()
+    {
+
+    }
+
     public void OnBabyDies(BabySwanController baby)
     {
         babySwanDead.Add(baby);
@@ -46,25 +58,12 @@ public class BabySwanManager : MonoBehaviour
     public void CheckIfWon()
     {
         if (NumberOfDeadBaby() != babySwans.Length && NumberOfBabyLeftToSave() == 0)
-            Debug.Log("YOU WIN");
+            UIController.Instance.ShowVictoryMenu();
     }
 
     public void CheckIfGameOver()
     {
-        if(NumberOfDeadBaby() == babySwans.Length)
-            Debug.Log("All baby dead, you lose");
-    }
-
-
-    // Start is called before the first frame update
-    void Start()
-    {
-        
-    }
-
-    // Update is called once per frame
-    void Update()
-    {
-        
+        if (NumberOfDeadBaby() == babySwans.Length)
+            UIController.Instance.ShowGameOverMenu();
     }
 }

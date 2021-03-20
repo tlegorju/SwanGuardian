@@ -16,27 +16,23 @@ public class EnnemyEatingState : IState
     private Transform eatenTarget;
     private BabySwanController targetController;
 
-    public float fleeDistance = 5;
-    public LayerMask OBSTACLES_MASK;
-
-    public const float STATE_SPEED = 5f;
-    public Color STATE_COLOR = Color.red;
+    EnnemyStateScriptableObject stateData;
 
     public const float DAMAGES_PER_SECONDS = .2f;
 
-    public EnnemyEatingState(StateMachine owner, SteeringBehavior steering, Transform MouthTransform)
+    public EnnemyEatingState(StateMachine owner, SteeringBehavior steering, Transform MouthTransform, EnnemyStateScriptableObject stateData)
     {
         this.owner = owner;
         this.steeringBehavior = steering;
         this.mouthTransform = MouthTransform;
+        this.stateData = stateData;
     }
 
     public void Enter()
     {
         controller = owner.GetComponent<EnnemyController>();
         controller.UpdateEnnemyMaterial(this.GetType());
-        OBSTACLES_MASK = owner.GetComponent<EnnemyController>().ObstaclesMask;
-        controller.MAX_VELOCITY = STATE_SPEED;
+        controller.MAX_VELOCITY = stateData.stateSpeed;
 
         eatenTarget = controller.target;
         targetController = eatenTarget.GetComponent<BabySwanController>();
@@ -73,13 +69,13 @@ public class EnnemyEatingState : IState
     public void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, fleeDistance);
+        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
 
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)
         {
-            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
+            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= stateData.fleeDistance)
             {
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }

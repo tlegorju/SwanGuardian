@@ -8,33 +8,26 @@ public class EnnemyChaseState : IState
 {
     private StateMachine owner;
     public StateMachine Owner { get { return owner; } }
-
-
     private SteeringBehavior steeringBehavior;
+    private FieldOfView fov;
+
     private Transform targetToFollow;
-    public const float MAX_FOLLOW_DISTANCE = 10;
-    public const float CLOSE_ENOUGH_DISTANCE = 1;
 
-    public const float AVOID_DISTANCE = 1;
-    public const float FIELD_OF_VIEW = 270;
-    public LayerMask OBSTACLES_MASK;
+    EnnemyStateScriptableObject stateData;
 
-    public const float STATE_SPEED = 6;
-    public Color STATE_COLOR = Color.green;
-
-
-    public EnnemyChaseState(StateMachine owner, SteeringBehavior steering)
+    public EnnemyChaseState(StateMachine owner, SteeringBehavior steering, EnnemyStateScriptableObject stateData)
     {
         this.owner = owner;
         this.steeringBehavior = steering;
-        //this.leaderToFollow = leader;
+        fov = owner.GetComponent<FieldOfView>();
+
+        this.stateData = stateData;
     }
 
     public void Enter()
     {
         owner.GetComponent<EnnemyController>().UpdateEnnemyMaterial(this.GetType());
-        owner.GetComponent<EnnemyController>().MAX_VELOCITY = STATE_SPEED;
-        OBSTACLES_MASK = owner.GetComponent<EnnemyController>().ObstaclesMask;
+        owner.GetComponent<EnnemyController>().MAX_VELOCITY = stateData.stateSpeed;
         targetToFollow = owner.GetComponent<EnnemyController>().target;
     }
 
@@ -43,13 +36,13 @@ public class EnnemyChaseState : IState
         if (targetToFollow == null)
             return typeof(EnnemyWanderState);
 
-        if (Vector3.Distance(targetToFollow.position, Owner.transform.position) <= CLOSE_ENOUGH_DISTANCE)
+        if (Vector3.Distance(targetToFollow.position, Owner.transform.position) <= stateData.closeEnoughDistance)
             return typeof(EnnemyEatingState);
 
         steeringBehavior.AddForce(steeringBehavior.Follow(targetToFollow.position), .7f);
-        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(AVOID_DISTANCE, FIELD_OF_VIEW), .3f);
+        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fov.Radius, fov.HalfAngle*2), .3f);
 
-        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
+        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(fov.FovOrigin, fov.Radius, stateData.OBSTACLES_MASK, fov.HalfAngle), 5f);
 
         return this.GetType();
     }
@@ -66,34 +59,34 @@ public class EnnemyChaseState : IState
 
     public void OnDrawGizmos()
     {
-        Handles.color = Color.green;
-        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, MAX_FOLLOW_DISTANCE);
+        //Handles.color = Color.green;
+        //Handles.DrawWireDisc(owner.transform.position, owner.transform.up, MAX_FOLLOW_DISTANCE);
 
-        Handles.color = Color.red;
-        owner.transform.Rotate(Vector3.up, -FIELD_OF_VIEW / 2);
-        Handles.DrawWireArc(owner.transform.position,
-                            owner.transform.up,
-                            owner.transform.forward,
-                            FIELD_OF_VIEW,
-                            AVOID_DISTANCE);
-        owner.transform.Rotate(Vector3.up, FIELD_OF_VIEW / 2);
+        //Handles.color = Color.red;
+        //owner.transform.Rotate(Vector3.up, -FIELD_OF_VIEW / 2);
+        //Handles.DrawWireArc(owner.transform.position,
+        //                    owner.transform.up,
+        //                    owner.transform.forward,
+        //                    FIELD_OF_VIEW,
+        //                    AVOID_DISTANCE);
+        //owner.transform.Rotate(Vector3.up, FIELD_OF_VIEW / 2);
 
 
         for (float i = 90 / 10; i < 90; i += 90 / 10)
         {
             Vector3 dir = (Quaternion.AngleAxis(i, Vector3.up) * owner.transform.forward).normalized;
-            if (!Physics.Raycast(new Ray(owner.transform.position, dir), 5, OBSTACLES_MASK))
+            if (!Physics.Raycast(new Ray(owner.transform.position, dir), fov.Radius, stateData.OBSTACLES_MASK))
                 Gizmos.color = Color.green;
             else
                 Gizmos.color = Color.red;
-            Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * 5);
+            Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
 
             dir = (Quaternion.AngleAxis(-i, Vector3.up) * owner.transform.forward).normalized;
-            if (!Physics.Raycast(new Ray(owner.transform.position, dir), 5, OBSTACLES_MASK))
+            if (!Physics.Raycast(new Ray(owner.transform.position, dir), fov.Radius, stateData.OBSTACLES_MASK))
                 Gizmos.color = Color.green;
             else
                 Gizmos.color = Color.red;
-            Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * 5);
+            Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
         }
     }
 }

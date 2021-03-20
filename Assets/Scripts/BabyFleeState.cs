@@ -8,29 +8,27 @@ public class BabyFleeState : IState
 {
     private StateMachine owner;
     public StateMachine Owner { get { return owner; } }
-
     private SteeringBehavior steeringBehavior;
-
-    public float fleeDistance = 5;
-    public LayerMask OBSTACLES_MASK;
-
-    public const float STATE_SPEED = 11;
-    public Color STATE_COLOR = Color.red;
+    private FieldOfView fov;
 
     public float stateDuration = 3;
     private float startTime = 0;
 
-    public BabyFleeState(StateMachine owner, SteeringBehavior steering)
+    private BabyStateScriptableObject stateData;
+
+    public BabyFleeState(StateMachine owner, SteeringBehavior steering, BabyStateScriptableObject stateData)
     {
         this.owner = owner;
         this.steeringBehavior = steering;
+        fov = owner.GetComponent<FieldOfView>();
+
+        this.stateData = stateData;
     }
 
     public void Enter()
     {
         owner.GetComponent<BabySwanController>().UpdateBabyMaterial(this.GetType());
-        OBSTACLES_MASK = owner.GetComponent<BabySwanController>().ObstaclesMask;
-        owner.GetComponent<BabySwanController>().MAX_VELOCITY = STATE_SPEED;
+        owner.GetComponent<BabySwanController>().MAX_VELOCITY = stateData.stateSpeed;
 
         startTime = Time.time;
     }
@@ -42,8 +40,8 @@ public class BabyFleeState : IState
             return typeof(BabyWanderState);
         }
 
-        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fleeDistance),5);
-        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(fleeDistance, OBSTACLES_MASK, 180 / 2), 5f);
+        steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(stateData.fleeDistance),5);
+        steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(fov.FovOrigin, fov.Radius, stateData.OBSTACLES_MASK, fov.HalfAngle), 5f);
 
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)
@@ -64,13 +62,13 @@ public class BabyFleeState : IState
     public void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, fleeDistance);
+        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
 
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for(int i=0; i<agentTab.Length; i++)
         {
-            if(Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
+            if(Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= stateData.fleeDistance)
             {
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }

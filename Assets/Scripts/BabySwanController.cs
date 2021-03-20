@@ -124,7 +124,10 @@ public class BabySwanController : MonoBehaviour, IBoid
         if (other.gameObject.CompareTag("Nest"))
         {
             BabySwanManager.Instance.OnBabySaved(this);
-            Destroy(this);
+            stateMachine.perimeterController = other.GetComponentInChildren<PerimeterController>();
+            stateMachine.SetState(typeof(BabySafeState));
+            velocity = Vector3.zero;
+            //Destroy(this);
         }
     }
 

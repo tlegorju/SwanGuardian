@@ -7,8 +7,12 @@ using UnityEngine;
 
 public class FieldOfView : MonoBehaviour
 {
-    float angle = 180;
-    float radius = 5;
+    [SerializeField] private Transform fovOrigin;
+    public Transform FovOrigin { get { return fovOrigin; } }
+    [SerializeField] private float angle = 180;
+    [SerializeField] private float radius = 5;
+    public float Radius { get { return radius; } }
+
     int layerMask = int.MaxValue;
 
     public event Action<Transform> OnEnterFOV = delegate { };
@@ -16,20 +20,26 @@ public class FieldOfView : MonoBehaviour
 
 
     private float halfAngle=0;
+    public float HalfAngle { get { return halfAngle; } }
 
     public List<Transform> transformInSight { get; private set; }
+
+    private void Awake()
+    {
+        halfAngle = angle / 2;
+        transformInSight = new List<Transform>();
+    }
 
     // Start is called before the first frame update
     void Start()
     {
-        halfAngle = angle/2;
-        transformInSight = new List<Transform>();
+
     }
 
     // Update is called once per frame
     void Update()
     {
-        Collider[] inShightCollider = Physics.OverlapSphere(transform.position, radius, layerMask);
+        Collider[] inShightCollider = Physics.OverlapSphere(fovOrigin.position, radius, layerMask);
         if (inShightCollider.Length == 0)
         {
             transformInSight.Clear();
@@ -41,8 +51,8 @@ public class FieldOfView : MonoBehaviour
 
         for(int i=0; i<inShightCollider.Length; i++)
         {
-            Vector3 objectDirection = inShightCollider[i].transform.position - transform.position;
-            float dotResult = Vector3.Dot(transform.forward, objectDirection);
+            Vector3 objectDirection = inShightCollider[i].transform.position - fovOrigin.position;
+            float dotResult = Vector3.Dot(fovOrigin.forward, objectDirection);
 
             if ((dotResult>= 0 && halfAngle >= (1 - dotResult) * 90) || (dotResult<0 && halfAngle >= (-dotResult) * 90 + 90))
             {
@@ -68,16 +78,14 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
-    //private void OnDrawGizmos()
-    //{
-    //    transform.Rotate(Vector3.up, -halfAngle);
-    //    Handles.DrawWireArc(transform.position,
-    //                        transform.up,
-    //                        transform.forward,
-    //                        angle,
-    //                        radius);
-    //    transform.Rotate(Vector3.up, halfAngle);
-    //}
+    private void OnDrawGizmosSelected()
+    {
+        Handles.DrawWireArc(fovOrigin.position,
+                            fovOrigin.up,
+                            Quaternion.Euler(0, 0, 1)* fovOrigin.forward,
+                            angle,
+                            radius);
+    }
 
     //private void OnGUI()
     //{

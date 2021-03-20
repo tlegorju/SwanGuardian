@@ -11,23 +11,21 @@ public class BabyDraggedState : IState
 
     private SteeringBehavior steeringBehavior;
 
-    public float fleeDistance = 5;
-    public LayerMask OBSTACLES_MASK;
 
-    public const float STATE_SPEED = 0;
-    public Color STATE_COLOR = Color.black;
+    private BabyStateScriptableObject stateData;
 
-    public BabyDraggedState(StateMachine owner, SteeringBehavior steering)
+    public BabyDraggedState(StateMachine owner, SteeringBehavior steering, BabyStateScriptableObject stateData)
     {
         this.owner = owner;
         this.steeringBehavior = steering;
+
+        this.stateData = stateData;
     }
 
     public void Enter()
     {
         owner.GetComponent<BabySwanController>().UpdateBabyMaterial(this.GetType());
-        OBSTACLES_MASK = owner.GetComponent<BabySwanController>().ObstaclesMask;
-        owner.GetComponent<BabySwanController>().MAX_VELOCITY = STATE_SPEED;
+        owner.GetComponent<BabySwanController>().MAX_VELOCITY = stateData.stateSpeed;
 
         Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
         Owner.GetComponent<Collider>().enabled = false;
@@ -47,13 +45,13 @@ public class BabyDraggedState : IState
     public void OnDrawGizmos()
     {
         Handles.color = Color.red;
-        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, fleeDistance);
+        Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
 
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)
         {
-            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= fleeDistance)
+            if (Vector3.Distance(owner.transform.position, agentTab[i].GetPosition()) <= stateData.fleeDistance)
             {
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }

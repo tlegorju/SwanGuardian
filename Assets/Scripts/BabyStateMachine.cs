@@ -9,6 +9,8 @@ public class BabyStateMachine : StateMachine
 
     public PerimeterController perimeterController;
 
+    [SerializeField] private BabyStateScriptableObject idleStateData, followStateData, fleeStateData, wanderStateData, draggedStateData, safeStateData;
+
     private void OnDrawGizmosSelected()
     {
         currentState?.OnDrawGizmos();
@@ -21,12 +23,12 @@ public class BabyStateMachine : StateMachine
 
     public void Initialize(Type defaultState, Transform leader, SteeringBehavior steering)
     {
-        babyStates.Add(typeof(BabyIdleState), new BabyIdleState(this, steering, perimeterController));
-        babyStates.Add(typeof(BabyFollowState), new BabyFollowState(this, steering, leader));
-        babyStates.Add(typeof(BabyFleeState), new BabyFleeState(this, steering));
-        babyStates.Add(typeof(BabyWanderState), new BabyWanderState(this, steering));
-        babyStates.Add(typeof(BabyDraggedState), new BabyDraggedState(this, steering));
-        babyStates.Add(typeof(BabySafeState), new BabySafeState());
+        babyStates.Add(typeof(BabyIdleState), new BabyIdleState(this, steering, perimeterController, idleStateData));
+        babyStates.Add(typeof(BabyFollowState), new BabyFollowState(this, steering, leader, followStateData));
+        babyStates.Add(typeof(BabyFleeState), new BabyFleeState(this, steering, fleeStateData));
+        babyStates.Add(typeof(BabyWanderState), new BabyWanderState(this, steering, wanderStateData));
+        babyStates.Add(typeof(BabyDraggedState), new BabyDraggedState(this, steering, draggedStateData));
+        babyStates.Add(typeof(BabySafeState), new BabySafeState(this, steering, safeStateData));
         babyStates.Add(typeof(BabyDeadState), new BabyDeadState(this));
 
         babyStates.TryGetValue(typeof(BabyIdleState), out currentState);
