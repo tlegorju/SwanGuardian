@@ -53,7 +53,7 @@ public class SimpleMoverController : MonoBehaviour, IBoid
 
         navMeshAgent.Move((transform.forward * vertical).normalized * speed * Time.deltaTime);
 
-        if(vertical!=0 && Time.time < nextFootstep)
+        if(vertical!=0 && Time.time > nextFootstep)
         {
             soundController.PlayFootstep();
             nextFootstep = Time.time + footstepRate;

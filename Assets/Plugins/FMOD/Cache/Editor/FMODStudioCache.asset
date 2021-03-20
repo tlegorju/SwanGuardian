@@ -500,7 +500,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 900
   Length: 350
 --- !u!114 &11400000
 MonoBehaviour:
@@ -541,7 +541,7 @@ MonoBehaviour:
   - {fileID: 8042056505768798906}
   StringsBanks:
   - {fileID: 4007178383230214714}
-  stringsBankWriteTime: 637518631354628397
+  stringsBankWriteTime: 637518633750584519
   cacheVersion: 6
 --- !u!114 &409060266216269982
 MonoBehaviour:
@@ -633,7 +633,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 5000
   Length: 1150
 --- !u!114 &3231430050588101676
 MonoBehaviour:
@@ -738,7 +738,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637518631354628397
+  lastModified: 637518633750584519
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637518631354578246
+  lastModified: 637518633750534536
   LoadResult: 0
   FileSizes: []
   Exists: 1
