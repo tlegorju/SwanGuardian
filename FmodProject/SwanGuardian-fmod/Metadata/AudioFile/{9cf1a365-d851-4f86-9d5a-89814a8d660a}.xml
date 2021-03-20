@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{9cf1a365-d851-4f86-9d5a-89814a8d660a}">
+		<property name="assetPath">
+			<value>eating-crunchy.wav</value>
+		</property>
+		<property name="isStreaming">
+			<value>true</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>36.918548752834468</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b11896da-58c0-44d8-bfd7-6d92512ea0e8}</destination>
+		</relationship>
+	</object>
+</objects>

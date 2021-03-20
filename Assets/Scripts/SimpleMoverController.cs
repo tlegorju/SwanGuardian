@@ -16,7 +16,10 @@ public class SimpleMoverController : MonoBehaviour, IBoid
     public float screamMaxSize = 4;
 
     NavMeshAgent navMeshAgent;
+    SwanSoundController soundController;
 
+    public float footstepRate = .5f;
+    public float nextFootstep = 0;
 
     private void OnDrawGizmosSelected()
     {
@@ -24,6 +27,11 @@ public class SimpleMoverController : MonoBehaviour, IBoid
         Handles.DrawWireDisc(transform.position, Vector3.up, screamRange);
     }
 
+    private void Awake()
+    {
+        navMeshAgent = GetComponent<NavMeshAgent>();
+        soundController = GetComponent<SwanSoundController>();
+    }
 
     // Start is called before the first frame update
     void Start()
@@ -31,7 +39,6 @@ public class SimpleMoverController : MonoBehaviour, IBoid
         if(screamWave)
             screamWave.localScale = Vector3.zero;
 
-        navMeshAgent = GetComponent<NavMeshAgent>();
     }
 
     // Update is called once per frame
@@ -45,6 +52,12 @@ public class SimpleMoverController : MonoBehaviour, IBoid
         //transform.position += (transform.forward * vertical).normalized * speed * Time.deltaTime;
 
         navMeshAgent.Move((transform.forward * vertical).normalized * speed * Time.deltaTime);
+
+        if(vertical!=0 && Time.time < nextFootstep)
+        {
+            soundController.PlayFootstep();
+            nextFootstep = Time.time + footstepRate;
+        }
 
         if (Input.GetButtonDown("Fire1"))
         {
@@ -63,12 +76,14 @@ public class SimpleMoverController : MonoBehaviour, IBoid
             colliders[i].gameObject.GetComponent<EnnemyController>()?.FleeSwan();
             colliders[i].gameObject.GetComponent<BabyStateMachine>()?.SetState(typeof(BabyFollowState));
         }
+
+        soundController.PlayKwak();
     }
 
     private IEnumerator AnimateScream()
     {
         float startTime = Time.time;
-        float screamDuration = .3f;
+        float screamDuration = .1f;
 
 
         if (!screamWave)
@@ -85,7 +100,7 @@ public class SimpleMoverController : MonoBehaviour, IBoid
         {
             screamWave.position = screamOrigin.position;
             screamWave.localScale = Vector3.one * screamMaxSize;
-            yield return new WaitForSeconds(.1f);
+            yield return new WaitForSeconds(0);
             screamWave.localScale = Vector3.zero;
         }
     }

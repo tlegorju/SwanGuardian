@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 1610912752}
   - component: {fileID: 1610912754}
   - component: {fileID: 1298715176}
+  - component: {fileID: 8350042778431992024}
   m_Layer: 0
   m_Name: Swan
   m_TagString: Untagged
@@ -66,6 +67,8 @@ MonoBehaviour:
   screamOrigin: {fileID: 2270359459613669754}
   screamWave: {fileID: 0}
   screamMaxSize: 4
+  footstepRate: 0.5
+  nextFootstep: 0
 --- !u!114 &1610912752
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -115,6 +118,22 @@ CapsuleCollider:
   m_Height: 5.3300867
   m_Direction: 2
   m_Center: {x: 0, y: 2.19, z: -0.60065365}
+--- !u!114 &8350042778431992024
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1869083003889440492}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8d7bf462273d4b146bb06e495d2fe737, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kwakEvent: event:/Swan/Swan-Kwak
+  walkEvent: event:/Swan/Swan-Walk
+  swimEvent: event:/Swan/Swan-Swim
+  getIntoWaterEvent: event:/Swan/Swan-GetIntoWater
 --- !u!1001 &8489236165412443296
 PrefabInstance:
   m_ObjectHideFlags: 0

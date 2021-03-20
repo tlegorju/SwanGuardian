@@ -15,8 +15,11 @@ MonoBehaviour:
   turnChance: 0.05
   circleDistance: 1
   circleRadius: 1
+  fleeDistance: 5
+  maxFollowDistance: 20
+  closeEnoughDistance: 3
   OBSTACLES_MASK:
     serializedVersion: 2
     m_Bits: 256
-  stateSpeed: 25
-  stateColor: {r: 1, g: 0.92156863, b: 0.015686275, a: 1}
+  stateSpeed: 12
+  stateColor: {r: 1, g: 0.015686274, b: 0.53886205, a: 1}

@@ -52,7 +52,7 @@ public class EnnemyController : MonoBehaviour, IBoid
 
     void Awake()
     {
-        ObstaclesMask = LayerMask.GetMask("Obstacle");
+        //ObstaclesMask = LayerMask.GetMask("Obstacle");
 
         if (stateMachine == null)
             stateMachine = GetComponent<EnnemyStateMachine>();

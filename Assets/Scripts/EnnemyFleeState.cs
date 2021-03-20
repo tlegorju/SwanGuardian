@@ -35,7 +35,7 @@ public class EnnemyFleeState : IState
     public Type Execute()
     {
         if (Time.time >= startTimeState + stateDuration)
-            return typeof(EnnemyWanderState);
+            return typeof(EnnemyIdleState);
 
         IBoid[] agentTab = SteeringBehavior.GetAllAgent();
         for (int i = 0; i < agentTab.Length; i++)

@@ -55,7 +55,7 @@ public class EnnemyEatingState : IState
         //steeringBehavior.AddForce(steeringBehavior.AvoidObstacles(5, OBSTACLES_MASK, 180 / 2), 5f);
 
         if (targetController.LoseLife(DAMAGES_PER_SECONDS * Time.deltaTime))
-            return typeof(EnnemyWanderState);
+            return typeof(EnnemyIdleState);
         eatenTarget.position = Vector3.MoveTowards(eatenTarget.position, mouthTransform.position, .5f);
 
         return GetType();

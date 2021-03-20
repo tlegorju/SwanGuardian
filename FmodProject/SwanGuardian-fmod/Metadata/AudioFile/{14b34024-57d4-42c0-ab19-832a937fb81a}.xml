@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<objects serializationModel="Studio.02.00.00">
+	<object class="AudioFile" id="{14b34024-57d4-42c0-ab19-832a937fb81a}">
+		<property name="assetPath">
+			<value>goose-scream-10.wav</value>
+		</property>
+		<property name="frequencyInKHz">
+			<value>44.0999985</value>
+		</property>
+		<property name="channelCount">
+			<value>2</value>
+		</property>
+		<property name="length">
+			<value>0.9162585034013605</value>
+		</property>
+		<relationship name="masterAssetFolder">
+			<destination>{b11896da-58c0-44d8-bfd7-6d92512ea0e8}</destination>
+		</relationship>
+	</object>
+</objects>

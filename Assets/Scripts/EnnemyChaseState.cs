@@ -34,7 +34,7 @@ public class EnnemyChaseState : IState
     public Type Execute()
     {
         if (targetToFollow == null)
-            return typeof(EnnemyWanderState);
+            return typeof(EnnemyIdleState);
 
         if (Vector3.Distance(targetToFollow.position, Owner.transform.position) <= stateData.closeEnoughDistance)
             return typeof(EnnemyEatingState);

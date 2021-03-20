@@ -9,6 +9,7 @@ public class EnnemyIdleState : IState
     private StateMachine owner;
     public StateMachine Owner { get { return owner; } }
     private SteeringBehavior steeringBehavior;
+    private EnnemyController controller;
     private PerimeterController perimeterController;
     private FieldOfView fov;
 
@@ -20,6 +21,7 @@ public class EnnemyIdleState : IState
     {
         this.owner = owner;
         this.steeringBehavior = steering;
+        this.controller = owner.GetComponent<EnnemyController>();
         this.perimeterController = perimeterController;
         fov = owner.GetComponent<FieldOfView>();
         this.stateData = stateData;
@@ -33,6 +35,9 @@ public class EnnemyIdleState : IState
 
     public Type Execute()
     {
+        if (controller.target)
+            return typeof(EnnemyChaseState);
+
         wanderForce = steeringBehavior.Wander(stateData.turnChance, stateData.circleDistance, stateData.circleRadius, wanderForce);
         steeringBehavior.AddForce(wanderForce, .3f);
         steeringBehavior.AddForce(steeringBehavior.AvoidAllAgent(fov.Radius, fov.HalfAngle*2), .3f);

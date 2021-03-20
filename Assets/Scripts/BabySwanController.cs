@@ -98,12 +98,15 @@ public class BabySwanController : MonoBehaviour, IBoid
         Vector3 steering = steeringBehavior.ComputeSteeringAndReset() / GetMass();
 
         velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
+        velocity = (new Vector3(velocity.x, 0, velocity.z)).normalized * velocity.magnitude;
 
         GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);
 
         //Translate(velocity * Time.deltaTime);
         if(velocity.normalized!=Vector3.zero)
+        {
             transform.forward = velocity.normalized;
+        }
     }
 
     public void Dies()

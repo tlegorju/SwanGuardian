@@ -301,7 +301,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   fovOrigin: {fileID: 5032619086862438246}
   angle: 180
-  radius: 10
+  radius: 40
 --- !u!1 &8625956866959076175
 GameObject:
   m_ObjectHideFlags: 0
