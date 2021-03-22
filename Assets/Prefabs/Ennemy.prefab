@@ -168,6 +168,7 @@ GameObject:
   - component: {fileID: 585493285}
   - component: {fileID: 585493286}
   - component: {fileID: 585493287}
+  - component: {fileID: 7263495234396907016}
   m_Layer: 0
   m_Name: Ennemy
   m_TagString: Rat
@@ -302,6 +303,24 @@ MonoBehaviour:
   fovOrigin: {fileID: 5032619086862438246}
   angle: 180
   radius: 40
+--- !u!114 &7263495234396907016
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8625956866239825117}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dcb496d414a8549904ede4f5c0013b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackingEvent: event:/Ennemies/Ennemy-Attacking
+  walkEvent: event:/Ennemies/Ennemy-Walk
+  swimEvent: event:/Ennemies/Ennemy-Swim
+  getIntoWaterEvent: event:/Ennemies/Ennemy-GetIntoWater
+  fleeingEvent: event:/Ennemies/Ennemy-Fleeing
+  eatingEvent: event:/Ennemies/Ennemy-Eating
 --- !u!1 &8625956866959076175
 GameObject:
   m_ObjectHideFlags: 0

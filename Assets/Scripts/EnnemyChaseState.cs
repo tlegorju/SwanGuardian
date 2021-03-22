@@ -29,6 +29,8 @@ public class EnnemyChaseState : IState
         owner.GetComponent<EnnemyController>().UpdateEnnemyMaterial(this.GetType());
         owner.GetComponent<EnnemyController>().MAX_VELOCITY = stateData.stateSpeed;
         targetToFollow = owner.GetComponent<EnnemyController>().target;
+
+        owner.GetComponent<EnnemySoundController>().PlayAttack();
     }
 
     public Type Execute()
@@ -57,8 +59,10 @@ public class EnnemyChaseState : IState
         targetToFollow = target;
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         //Handles.color = Color.green;
         //Handles.DrawWireDisc(owner.transform.position, owner.transform.up, MAX_FOLLOW_DISTANCE);
 
@@ -88,5 +92,6 @@ public class EnnemyChaseState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
         }
+#endif
     }
 }

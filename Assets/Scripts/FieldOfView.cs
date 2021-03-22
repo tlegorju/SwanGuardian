@@ -78,6 +78,7 @@ public class FieldOfView : MonoBehaviour
         }
     }
 
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Handles.DrawWireArc(fovOrigin.position,
@@ -86,6 +87,7 @@ public class FieldOfView : MonoBehaviour
                             angle,
                             radius);
     }
+#endif
 
     //private void OnGUI()
     //{

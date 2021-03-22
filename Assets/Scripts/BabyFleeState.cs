@@ -59,8 +59,10 @@ public class BabyFleeState : IState
 
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.red;
         Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
@@ -73,5 +75,6 @@ public class BabyFleeState : IState
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }
         }
+#endif
     }
 }

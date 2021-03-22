@@ -250,6 +250,7 @@ GameObject:
   - component: {fileID: 974412539}
   - component: {fileID: 424832731}
   - component: {fileID: 6289956514550089895}
+  - component: {fileID: 4751848909217968140}
   m_Layer: 0
   m_Name: BabySwan
   m_TagString: Untagged
@@ -300,6 +301,8 @@ MonoBehaviour:
   - {fileID: 2100000, guid: 893e152ce483aa34095348e8e6db7c72, type: 2}
   - {fileID: 2100000, guid: 81525f45fa6b184468eb9e9fc565081d, type: 2}
   - {fileID: 2100000, guid: 15aa6257ecb7eb643bb0a357c24c6b36, type: 2}
+  footstepRate: 0.5
+  nextFootstep: 0
 --- !u!136 &8693696111973889674
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -399,6 +402,24 @@ MonoBehaviour:
   fovOrigin: {fileID: 3137302007411215308}
   angle: 180
   radius: 12
+--- !u!114 &4751848909217968140
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8693696111973889653}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 833273e9f954faf4da07a54483a2e15f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  kwakEvent: event:/BabySwan/BabySwan-Kwak
+  walkEvent: event:/BabySwan/BabySwan-Walk
+  swimEvent: event:/BabySwan/BabySwan-Swim
+  getIntoWaterEvent: event:/BabySwan/BabySwan-GetIntoWater
+  screamingEvent: event:/BabySwan/BabySwan-Screaming
+  arriveAtNestEvent: event:/BabySwan/BabySwan-ArriveAtNest
 --- !u!1001 &7110435287936715212
 PrefabInstance:
   m_ObjectHideFlags: 0

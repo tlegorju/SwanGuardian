@@ -99,7 +99,7 @@ LightmapSettings:
     m_LightProbeSampleCountMultiplier: 4
   m_LightingDataAsset: {fileID: 112000000, guid: 9eb9781861f7f2b4db6f07b095fc8248,
     type: 2}
-  m_UseShadowmask: 1
+  m_UseShadowmask: 0
 --- !u!196 &4
 NavMeshSettings:
   serializedVersion: 2
@@ -1713,6 +1713,30 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!1 &1191278507 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8625956866239825117, guid: e361ddbc2ab294d45b427b162ba84389,
+    type: 3}
+  m_PrefabInstance: {fileID: 1814576328}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1191278514
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1191278507}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 85dcb496d414a8549904ede4f5c0013b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  attackingEvent: 
+  walkEvent: 
+  swimEvent: 
+  getIntoWaterEvent: 
+  fleeingEvent: 
+  eatingEvent: 
 --- !u!1 &1197843196
 GameObject:
   m_ObjectHideFlags: 0
@@ -1725,9 +1749,9 @@ GameObject:
   - component: {fileID: 1197843199}
   - component: {fileID: 1197843198}
   - component: {fileID: 1197843197}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Plane
-  m_TagString: Untagged
+  m_TagString: Water
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 8

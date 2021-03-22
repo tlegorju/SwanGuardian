@@ -37,6 +37,8 @@ public class EnnemyEatingState : IState
         eatenTarget = controller.target;
         targetController = eatenTarget.GetComponent<BabySwanController>();
         targetController.StartBeingDragged();
+
+        owner.GetComponent<EnnemySoundController>().StartEating();
     }
 
     public Type Execute()
@@ -63,11 +65,13 @@ public class EnnemyEatingState : IState
 
     public void Exit()
     {
-
+        owner.GetComponent<EnnemySoundController>().StopEating();
     }
+
 
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.red;
         Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
@@ -80,5 +84,6 @@ public class EnnemyEatingState : IState
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }
         }
+#endif
     }
 }

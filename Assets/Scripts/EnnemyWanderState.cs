@@ -53,6 +53,7 @@ public class EnnemyWanderState : IState
 
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         //Handles.color = Color.red;
         //owner.transform.Rotate(Vector3.up, -FIELD_OF_VIEW / 2);
         //Handles.DrawWireArc(owner.transform.position,
@@ -79,5 +80,6 @@ public class EnnemyWanderState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * 5);
         }
+#endif
     }
 }

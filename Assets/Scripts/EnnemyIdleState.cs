@@ -52,8 +52,10 @@ public class EnnemyIdleState : IState
         
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         //Handles.color = Color.yellow;
         //Handles.DrawWireDisc(owner.transform.position+owner.transform.forward*circleDistance, owner.transform.up, circleRadius);
         //Handles.DrawLine(owner.transform.position, owner.transform.position + wanderForce);
@@ -83,5 +85,6 @@ public class EnnemyIdleState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
         }
+#endif
     }
 }

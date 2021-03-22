@@ -36,32 +36,13 @@ public class BabySwanController : MonoBehaviour, IBoid
     private Material[] materials;
 
 
-    //private void OnDrawGizmos()
-    //{
+    BabySoundController soundController;
 
-    //    switch (babyState)
-    //    {
-    //        case BabyState.Following:
-    //            Handles.color = Color.green;
-    //            Handles.DrawWireDisc(transform.position, transform.up, followDistance);
-    //            break;
-    //        case BabyState.Fleeing:
-    //            Handles.color = Color.red;
-    //            Handles.DrawWireDisc(transform.position, transform.up, fleeDistance);
-    //            for (int i = 0; i < ennemies.Length; i++)
-    //            {
-    //                if (Vector3.Distance(GetPosition(), ennemies[i].position) > maxFleeDistance)
-    //                    continue;
-    //                Handles.DrawLine(transform.position, ennemies[i].position);
-    //            }
-    //            break;
-    //        case BabyState.Wandering:
-    //            Handles.color = Color.yellow;
-    //            Handles.DrawWireDisc(transform.position+velocity.normalized*circleDistance, transform.up, circleRadius);
-    //            Handles.DrawLine(transform.position, transform.position + wanderForce);
-    //            break;
-    //    }
-    //}
+    public float footstepRate = .5f;
+    public float nextFootstep = 0;
+
+    private bool onLand = false;
+    public bool OnLand { get { return onLand; } }
 
     void Awake()
     {
@@ -78,6 +59,8 @@ public class BabySwanController : MonoBehaviour, IBoid
 
         if (Fov == null)
             Fov = GetComponent<FieldOfView>();
+
+        soundController = GetComponent<BabySoundController>();
     }
 
     // Start is called before the first frame update
@@ -102,8 +85,18 @@ public class BabySwanController : MonoBehaviour, IBoid
 
         GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);
 
+        UpdateOnLand();
+        if (velocity != Vector3.zero && Time.time > nextFootstep)
+        {
+            if (onLand)
+                soundController.PlayFootstep();
+            else
+                soundController.PlaySwim();
+            nextFootstep = Time.time + footstepRate;
+        }
+
         //Translate(velocity * Time.deltaTime);
-        if(velocity.normalized!=Vector3.zero)
+        if (velocity.normalized!=Vector3.zero)
         {
             transform.forward = velocity.normalized;
         }
@@ -131,6 +124,7 @@ public class BabySwanController : MonoBehaviour, IBoid
             stateMachine.SetState(typeof(BabySafeState));
             velocity = Vector3.zero;
             //Destroy(this);
+            soundController.ArriveAtNest();
         }
     }
 
@@ -192,7 +186,25 @@ public class BabySwanController : MonoBehaviour, IBoid
         //}
     }
 
-
+    private void UpdateOnLand()
+    {
+        if (Terrain.activeTerrain.SampleHeight(transform.position) >= 3)
+        {
+            if (!onLand)
+            {
+                soundController.ComeOutOfWater();
+                onLand = true;
+            }
+        }
+        else
+        {
+            if (onLand)
+            {
+                soundController.GetIntoWater();
+                onLand = false;
+            }
+        }
+    }
 
 
     public Vector3 GetPosition()

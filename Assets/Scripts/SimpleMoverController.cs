@@ -21,11 +21,16 @@ public class SimpleMoverController : MonoBehaviour, IBoid
     public float footstepRate = .5f;
     public float nextFootstep = 0;
 
+    private bool onLand = false;
+    public bool OnLand { get { return onLand; } }
+
+#if UNITY_EDITOR
     private void OnDrawGizmosSelected()
     {
         Handles.color = Color.white;
         Handles.DrawWireDisc(transform.position, Vector3.up, screamRange);
     }
+#endif
 
     private void Awake()
     {
@@ -53,9 +58,13 @@ public class SimpleMoverController : MonoBehaviour, IBoid
 
         navMeshAgent.Move((transform.forward * vertical).normalized * speed * Time.deltaTime);
 
+        UpdateOnLand();
         if(vertical!=0 && Time.time > nextFootstep)
         {
-            soundController.PlayFootstep();
+            if (onLand)
+                soundController.PlayFootstep();
+            else
+                soundController.PlaySwim();
             nextFootstep = Time.time + footstepRate;
         }
 
@@ -102,6 +111,26 @@ public class SimpleMoverController : MonoBehaviour, IBoid
             screamWave.localScale = Vector3.one * screamMaxSize;
             yield return new WaitForSeconds(0);
             screamWave.localScale = Vector3.zero;
+        }
+    }
+
+    private void UpdateOnLand()
+    {
+       if(Terrain.activeTerrain.SampleHeight(transform.position) >= 3)
+        {
+            if(!onLand)
+            {
+                soundController.ComeOutOfWater();
+                onLand = true;
+            }
+        }
+       else
+        {
+            if(onLand)
+            {
+                soundController.GetIntoWater();
+                onLand = false;
+            }
         }
     }
 

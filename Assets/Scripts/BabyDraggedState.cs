@@ -29,6 +29,7 @@ public class BabyDraggedState : IState
 
         Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = false;
         Owner.GetComponent<Collider>().enabled = false;
+        Owner.GetComponent<BabySoundController>().StartScreaming();
     }
 
     public Type Execute()
@@ -40,10 +41,12 @@ public class BabyDraggedState : IState
     {
         Owner.GetComponent<UnityEngine.AI.NavMeshAgent>().enabled = true;
         Owner.GetComponent<Collider>().enabled = true;
+        Owner.GetComponent<BabySoundController>().StopScreaming();
     }
 
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.red;
         Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
@@ -56,5 +59,6 @@ public class BabyDraggedState : IState
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }
         }
+#endif
     }
 }

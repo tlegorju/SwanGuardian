@@ -44,7 +44,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 1250
 --- !u!114 &-8514751904535715675
 MonoBehaviour:
@@ -159,7 +159,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 16323
 --- !u!114 &-6290917233292838322
 MonoBehaviour:
@@ -251,7 +251,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 1250
 --- !u!114 &-5500254350089203336
 MonoBehaviour:
@@ -274,7 +274,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 350
 --- !u!114 &-5477337610435783523
 MonoBehaviour:
@@ -297,7 +297,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 1150
 --- !u!114 &-4992069600452061235
 MonoBehaviour:
@@ -343,7 +343,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 4917
 --- !u!114 &-4521846640246131674
 MonoBehaviour:
@@ -389,7 +389,7 @@ MonoBehaviour:
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 1150
 --- !u!114 &-4040031992492738411
 MonoBehaviour:
@@ -500,7 +500,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 900
+  MaxDistance: 20
   Length: 350
 --- !u!114 &11400000
 MonoBehaviour:
@@ -541,7 +541,7 @@ MonoBehaviour:
   - {fileID: 8042056505768798906}
   StringsBanks:
   - {fileID: 4007178383230214714}
-  stringsBankWriteTime: 637518633750584519
+  stringsBankWriteTime: 637520131876022458
   cacheVersion: 6
 --- !u!114 &409060266216269982
 MonoBehaviour:
@@ -584,10 +584,10 @@ MonoBehaviour:
   - {fileID: 8042056505768798906}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 1250
 --- !u!114 &1721050836656139872
 MonoBehaviour:
@@ -633,7 +633,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 5000
+  MaxDistance: 20
   Length: 1150
 --- !u!114 &3231430050588101676
 MonoBehaviour:
@@ -718,7 +718,7 @@ MonoBehaviour:
   - {fileID: 8042056505768798906}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
   MaxDistance: 20
@@ -738,7 +738,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.strings.bank
   Name: Master.strings
   StudioPath: bank:/Master.strings
-  lastModified: 637518633750584519
+  lastModified: 637520131876022458
   LoadResult: 0
   FileSizes:
   - Name: Desktop
@@ -765,7 +765,7 @@ MonoBehaviour:
   IsOneShot: 0
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 1900
 --- !u!114 &4156671886079719818
 MonoBehaviour:
@@ -965,10 +965,10 @@ MonoBehaviour:
   - {fileID: 8042056505768798906}
   IsStream: 0
   Is3D: 1
-  IsOneShot: 0
+  IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 160
   Length: 1250
 --- !u!114 &6396466459863645651
 MonoBehaviour:
@@ -991,7 +991,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 350
 --- !u!114 &7158741406617706057
 MonoBehaviour:
@@ -1117,7 +1117,7 @@ MonoBehaviour:
   Path: Assets/FmodBanks/Desktop/Master.bank
   Name: Master
   StudioPath: bank:/Master
-  lastModified: 637518633750534536
+  lastModified: 637520131875932509
   LoadResult: 0
   FileSizes: []
   Exists: 1
@@ -1142,7 +1142,7 @@ MonoBehaviour:
   IsOneShot: 1
   Parameters: []
   MinDistance: 1
-  MaxDistance: 20
+  MaxDistance: 150
   Length: 1150
 --- !u!114 &8380985882214373828
 MonoBehaviour:

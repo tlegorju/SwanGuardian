@@ -30,6 +30,8 @@ public class EnnemyFleeState : IState
         owner.GetComponent<EnnemyController>().MAX_VELOCITY = stateData.stateSpeed;
 
         startTimeState = Time.time;
+
+        owner.GetComponent<EnnemySoundController>().Flee();
     }
 
     public Type Execute()
@@ -55,8 +57,10 @@ public class EnnemyFleeState : IState
 
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.red;
         Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.fleeDistance);
 
@@ -69,5 +73,6 @@ public class EnnemyFleeState : IState
                 Handles.DrawLine(owner.transform.position, agentTab[i].GetPosition());
             }
         }
+#endif
     }
 }

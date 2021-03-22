@@ -48,8 +48,10 @@ public class BabyWanderState : IState
         
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.yellow;
         Handles.DrawWireDisc(owner.transform.position+owner.transform.forward* stateData.circleDistance, owner.transform.up, stateData.circleRadius);
         Handles.DrawLine(owner.transform.position, owner.transform.position + wanderForce);
@@ -79,5 +81,6 @@ public class BabyWanderState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
         }
+#endif
     }
 }

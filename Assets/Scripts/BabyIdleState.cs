@@ -51,8 +51,10 @@ public class BabyIdleState : IState
         
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.yellow;
         Handles.DrawWireDisc(fov.FovOrigin.position + fov.FovOrigin.forward * stateData.circleDistance, fov.FovOrigin.up, stateData.circleRadius);
         Handles.DrawLine(fov.FovOrigin.position, fov.FovOrigin.position + wanderForce);
@@ -73,5 +75,6 @@ public class BabyIdleState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(fov.FovOrigin.position, fov.FovOrigin.position + dir * fov.Radius);
         }
+#endif
     }
 }

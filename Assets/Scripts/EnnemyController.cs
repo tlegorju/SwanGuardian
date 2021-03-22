@@ -47,7 +47,13 @@ public class EnnemyController : MonoBehaviour, IBoid
     public Transform Swan;
     public Transform[] targets;
     private Transform currentTarget;
+    private EnnemySoundController soundController;
 
+    public float footstepRate = .5f;
+    public float nextFootstep = 0;
+
+    private bool onLand = false;
+    public bool OnLand { get { return onLand; } }
 
 
     void Awake()
@@ -64,6 +70,7 @@ public class EnnemyController : MonoBehaviour, IBoid
         renderer = GetComponentInChildren<SkinnedMeshRenderer>();
         materials = renderer?.materials;
 
+        soundController = GetComponent<EnnemySoundController>();
     }
 
     // Start is called before the first frame update
@@ -85,6 +92,17 @@ public class EnnemyController : MonoBehaviour, IBoid
         velocity = Vector3.ClampMagnitude(velocity + steering, GetMaxVelocity());
 
         GetComponent<NavMeshAgent>().Move(velocity * Time.deltaTime);
+
+
+        UpdateOnLand();
+        if (velocity != Vector3.zero && Time.time > nextFootstep)
+        {
+            if (onLand)
+                soundController.PlayFootstep();
+            else
+                soundController.PlaySwim();
+            nextFootstep = Time.time + footstepRate;
+        }
 
         //Translate(velocity * Time.deltaTime);
         if (velocity.normalized != Vector3.zero)
@@ -187,7 +205,26 @@ public class EnnemyController : MonoBehaviour, IBoid
         stateMachine.SetState(typeof(EnnemyFleeState));
     }
 
-    
+    private void UpdateOnLand()
+    {
+        if (Terrain.activeTerrain.SampleHeight(transform.position) >= 3)
+        {
+            if (!onLand)
+            {
+                soundController.ComeOutOfWater();
+                onLand = true;
+            }
+        }
+        else
+        {
+            if (onLand)
+            {
+                soundController.GetIntoWater();
+                onLand = false;
+            }
+        }
+    }
+
     public Vector3 GetPosition()
     {
         return transform.position;

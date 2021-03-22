@@ -11,25 +11,49 @@ public class SwanSoundController : MonoBehaviour
 
     FMOD.Studio.EventInstance swimmingInstance;
 
+    Rigidbody rb;
+
+    private void Awake()
+    {
+        rb = GetComponent<Rigidbody>();
+    }
+
     public void PlayKwak()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(kwakEvent);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(kwakEvent, gameObject);
     }
 
     public void PlayFootstep()
     {
-        FMODUnity.RuntimeManager.PlayOneShot(walkEvent);
+        FMODUnity.RuntimeManager.PlayOneShotAttached(walkEvent, gameObject);
+    }
+
+    public void PlaySwim()
+    {
+        FMOD.Studio.PLAYBACK_STATE playingState;
+        swimmingInstance.getPlaybackState(out playingState);
+
+        if(playingState==FMOD.Studio.PLAYBACK_STATE.STOPPED)
+        {
+            swimmingInstance.release();
+            swimmingInstance = FMODUnity.RuntimeManager.CreateInstance(swimEvent);
+            FMODUnity.RuntimeManager.AttachInstanceToGameObject(swimmingInstance, transform, rb);
+            swimmingInstance.start();
+        }
+
     }
 
     public void GetIntoWater()
     {
         FMODUnity.RuntimeManager.PlayOneShot(getIntoWaterEvent);
         swimmingInstance = FMODUnity.RuntimeManager.CreateInstance(swimEvent);
+        FMODUnity.RuntimeManager.AttachInstanceToGameObject(swimmingInstance, transform, rb);
         swimmingInstance.start();
     }
 
     public void ComeOutOfWater()
     {
         swimmingInstance.stop(FMOD.Studio.STOP_MODE.ALLOWFADEOUT);
+        swimmingInstance.release();
     }
 }

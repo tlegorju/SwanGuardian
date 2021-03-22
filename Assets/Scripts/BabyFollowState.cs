@@ -52,8 +52,10 @@ public class BabyFollowState : IState
         
     }
 
+
     public void OnDrawGizmos()
     {
+#if UNITY_EDITOR
         Handles.color = Color.green;
         Handles.DrawWireDisc(owner.transform.position, owner.transform.up, stateData.maxFollowDistance);
 
@@ -85,5 +87,6 @@ public class BabyFollowState : IState
                 Gizmos.color = Color.red;
             Gizmos.DrawLine(owner.transform.position, owner.transform.position + dir * fov.Radius);
         }
+#endif
     }
 }
